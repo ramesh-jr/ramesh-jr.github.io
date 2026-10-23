@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found | Ramesh Kumar Subramanian" description="This page does not exist.">
+  <div class="wrap lost">
+    <p class="eyebrow">404</p>
+    <h1>That page doesn’t exist.</h1>
+    <p>It may have moved, or the link may be wrong.</p>
+    <a class="btn btn--primary" href="/">Back to the homepage</a>
+  </div>
+</Base>
+
+<style>
+  .lost {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding-block: clamp(64px, 12vw, 160px);
+  }
+  h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+</style>

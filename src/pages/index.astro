@@ -1,0 +1,454 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import portrait from '../assets/ramesh.jpg';
+import { profile, yearsOfExperience } from '../data/profile';
+import {
+  strengths,
+  projects,
+  experience,
+  earlier,
+  education,
+  certifications,
+  skills,
+} from '../data/content';
+
+const spoken = yearsOfExperience();
+const years = spoken.charAt(0).toUpperCase() + spoken.slice(1);
+---
+
+<Base>
+  <div class="wrap">
+    <section class="hero" aria-label="Introduction">
+      <div class="hero__text">
+        <p class="hero__meta">
+          {
+            profile.openToWork && (
+              <span class="hero__status">
+                <span class="hero__dot" aria-hidden="true" />
+                Open to new opportunities
+              </span>
+            )
+          }
+          <span>{profile.title}</span>
+          <span>{profile.location}</span>
+        </p>
+        <h1>
+          Frontend engineer building fast, accessible products <span class="hero__accent">at scale.</span>
+        </h1>
+        <p class="hero__lead">
+          {years} years across Yara and Asper AI, shipping React and React Native products, and now exploring where
+          AI meets frontend engineering.
+        </p>
+        <div class="hero__cta">
+          {
+            profile.resumeUrl ? (
+              <a class="btn btn--primary" href={profile.resumeUrl}>
+                Download resume
+              </a>
+            ) : (
+              <a class="btn btn--primary" href={`mailto:${profile.email}`}>
+                Get in touch
+              </a>
+            )
+          }
+          <a class="link" href="#work">View selected work →</a>
+          <a class="link link--muted" href={profile.linkedin} rel="me noopener">LinkedIn</a>
+          <a class="link link--muted" href={profile.github} rel="me noopener">GitHub</a>
+        </div>
+      </div>
+      <figure class="hero__photo">
+        <Image
+          src={portrait}
+          alt={`Portrait of ${profile.name}`}
+          width={354}
+          height={472}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
+    </section>
+
+    <section class="strengths" aria-labelledby="strengths-h">
+      <h2 id="strengths-h" class="eyebrow">What I bring</h2>
+      <div class="strengths__grid">
+        {
+          strengths.map((s) => (
+            <div class="strengths__item">
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="work" class="block" aria-labelledby="work-h">
+      <div class="block__head">
+        <h2 id="work-h" class="eyebrow">01 &nbsp; Selected work</h2>
+        <p class="block__note">Proprietary products, described at a high level</p>
+      </div>
+      <div class="projects">
+        {
+          projects.map((p) => (
+            <article class="project">
+              <div class="project__main">
+                <h3>{p.name}</h3>
+                <p>{p.summary}</p>
+              </div>
+              <p class="project__meta">
+                <span>
+                  {p.org} · {p.period}
+                </span>
+                <span>{p.stack.join(' · ')}</span>
+              </p>
+            </article>
+          ))
+        }
+      </div>
+      <p class="block__foot">
+        Most of this work is proprietary, so I keep public write-ups high level. Happy to go deeper in a conversation.
+      </p>
+    </section>
+
+    <section id="experience" class="block" aria-labelledby="exp-h">
+      <h2 id="exp-h" class="eyebrow">02 &nbsp; Experience</h2>
+      <div class="roles">
+        {
+          experience.map((role) => (
+            <div class="role">
+              <p class="role__period">{role.period}</p>
+              <div class="role__who">
+                <h3>{role.company}</h3>
+                <p>{role.title}</p>
+              </div>
+              <ul class="role__list">
+                {role.highlights.map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <div class="role role--quiet">
+          <p class="role__period">Earlier</p>
+          <div class="role__who">
+            {
+              earlier.map((e) => (
+                <>
+                  <h3>{e.where}</h3>
+                  <p>
+                    {e.label}, {e.period}
+                  </p>
+                </>
+              ))
+            }
+          </div>
+          <div class="role__list role__list--plain">
+            <p class="role__label">Education</p>
+            <ul>
+              {
+                education.map((e) => (
+                  <li>
+                    {e.label}, {e.where} ({e.period})
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="role__label">Certifications</p>
+            <ul>
+              {certifications.map((c) => <li>{c}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="block" aria-labelledby="skills-h">
+      <h2 id="skills-h" class="eyebrow">03 &nbsp; Skills</h2>
+      <div class="skills">
+        {
+          skills.map((g) => (
+            <div class="skills__group">
+              <h3>{g.group}</h3>
+              <p>{g.items.join(', ')}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="contact" class="block block--contact" aria-labelledby="contact-h">
+      <h2 id="contact-h" class="eyebrow">04 &nbsp; Contact</h2>
+      <div class="contact">
+        <p class="contact__lead">Hiring for a frontend role? Let’s talk.</p>
+        <div class="contact__links">
+          <a class="btn btn--dark" href={`mailto:${profile.email}`}>{profile.email}</a>
+          <a class="link" href={profile.linkedin} rel="me noopener">LinkedIn →</a>
+          <a class="link" href={profile.github} rel="me noopener">GitHub →</a>
+        </div>
+        <p class="contact__note">Also open to select freelance and consulting work.</p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px 64px;
+    padding-block: clamp(48px, 8vw, 104px) clamp(48px, 7vw, 88px);
+  }
+  .hero__text {
+    flex: 1 1 520px;
+    min-width: 0;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 24px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--ok);
+  }
+  h1 {
+    margin-top: 28px;
+    max-width: 14em;
+    font-size: clamp(38px, 5.6vw, 68px);
+    font-weight: 600;
+    line-height: 1.03;
+    letter-spacing: -0.035em;
+  }
+  .hero__accent {
+    color: var(--accent);
+  }
+  .hero__lead {
+    margin-top: 28px;
+    max-width: 34em;
+    font-size: clamp(17px, 2vw, 20px);
+    line-height: 1.55;
+  }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 28px;
+    margin-top: 36px;
+  }
+  .hero__photo {
+    flex: 0 1 300px;
+    margin: 0;
+  }
+  .hero__photo :global(img) {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--rule);
+    border-radius: 28px;
+  }
+
+  .strengths {
+    padding-block: 8px clamp(40px, 6vw, 72px);
+  }
+  .strengths__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 40px;
+    margin-top: 20px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .strengths__item {
+    flex: 1 1 260px;
+    min-width: 0;
+  }
+  .strengths__item h3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .strengths__item p {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  .block {
+    padding-top: clamp(56px, 8vw, 104px);
+  }
+  .block__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+  }
+  .block__note {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .block__foot {
+    margin-top: 24px;
+    max-width: 52em;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .projects {
+    margin-top: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .project {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 40px;
+    padding-block: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .project__main {
+    flex: 2 1 380px;
+    min-width: 0;
+  }
+  .project h3 {
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .project__main p {
+    margin-top: 10px;
+    max-width: 56ch;
+  }
+  .project__meta {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .roles {
+    margin-top: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .role {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    padding-block: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .role__period {
+    flex: 0 0 160px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .role__who {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+  .role__who h3 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .role__who p {
+    margin-top: 6px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .role__list {
+    flex: 2 1 380px;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 16px;
+  }
+  .role__list--plain {
+    padding-left: 0;
+    gap: 6px;
+  }
+  .role__list--plain ul {
+    margin: 0 0 12px;
+    padding-left: 20px;
+  }
+  .role__label {
+    margin-top: 0;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-top: 28px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .skills__group {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+  .skills__group h3 {
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .skills__group p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .block--contact {
+    padding-bottom: clamp(56px, 8vw, 96px);
+  }
+  .contact {
+    margin-top: 28px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+  }
+  .contact__lead {
+    max-width: 14em;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5.2vw, 60px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+  }
+  .contact__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 28px;
+    margin-top: 32px;
+  }
+  .contact__note {
+    margin-top: 24px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+</style>

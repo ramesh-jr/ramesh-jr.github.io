@@ -1,0 +1,192 @@
+/* Design tokens, base styles and shared primitives. Component-specific styles
+   live next to their components. */
+
+:root {
+  color-scheme: light;
+  --bg: #fbfbfa;
+  --surface: #ffffff;
+  --fg: #0e0e10;
+  --body: #3f3f46;
+  --muted: #5b5b63;
+  --rule: #e4e4e7;
+  --accent: #2440ff;
+  --accent-fg: #ffffff;
+  --ok: #12a150;
+
+  --font-display: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
+  --font-body: 'Instrument Sans Variable', 'Instrument Sans', system-ui, sans-serif;
+
+  --gutter: clamp(20px, 5vw, 40px);
+  --max: 1120px;
+}
+
+/* Dark tokens: used when the visitor's system prefers dark and they have not
+   chosen otherwise, and when they toggle dark explicitly. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --bg: #0e0f12;
+    --surface: #16171b;
+    --fg: #f3f3f5;
+    --body: #d4d4d8;
+    --muted: #a1a1aa;
+    --rule: #26272c;
+    --accent: #93a5ff;
+    --accent-fg: #0e0f12;
+    --ok: #4ade80;
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0e0f12;
+  --surface: #16171b;
+  --fg: #f3f3f5;
+  --body: #d4d4d8;
+  --muted: #a1a1aa;
+  --rule: #26272c;
+  --accent: #93a5ff;
+  --accent-fg: #0e0f12;
+  --ok: #4ade80;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--fg);
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+section[id] {
+  scroll-margin-top: 24px;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -80px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 600;
+}
+.skip:focus {
+  top: 16px;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 24px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  transition: opacity 0.15s ease;
+}
+.btn:hover {
+  opacity: 0.88;
+}
+.btn--primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.btn--dark {
+  background: var(--fg);
+  color: var(--bg);
+}
+.btn--ghost {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.link--muted {
+  color: var(--muted);
+  font-weight: 500;
+}
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
